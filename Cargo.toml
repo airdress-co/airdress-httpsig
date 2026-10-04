@@ -1,23 +1,37 @@
 [package]
 name = "airdress-httpsig"
-version = "0.1.112"
-edition.workspace = true
-rust-version.workspace = true
-publish.workspace = true
-license.workspace = true
+version = "0.2.0"
+edition = "2024"
+rust-version = "1.92"
+license = "Apache-2.0"
 description = "The RFC 9421 request-signing profile airdress operators sign with — one implementation for every signer."
+repository = "https://github.com/airdress-co/airdress-httpsig"
+keywords = ["rfc9421", "http-signatures", "signing", "ed25519"]
+categories = ["cryptography", "web-programming"]
+readme = "README.md"
+
+# Extracted from airdress-operator with its history on 2026-10-04. It
+# lives on its own because airdress-cli is public and this was the one
+# dependency that kept it from building outside our network: pulled by
+# git tag from a private repository and declaring
+# LicenseRef-Proprietary, inherited from that workspace. Vendoring the
+# 233 lines into the CLI was the cheaper option and was rejected — it
+# creates exactly the second copy the pinned-tag comment existed to
+# prevent.
 
 [dependencies]
-base64.workspace = true
+base64 = "0.22"
 bytes = "1"
 http = "1"
 http-body-util = "0.1"
-# Pinned exactly: pre-1.0, every bump reviewed (SPEC-095 095-C.0, operator
-# PR #198). Must match the pins in airdress-fn and airdress-operator.
+# Pinned exactly: pre-1.0, every bump reviewed. This pin must match the
+# one in airdress-operator's airdress-fn and airdress-operator crates,
+# or two versions of the signing library end up in one binary and the
+# bytes being signed stop agreeing.
 httpsig-hyper = "=0.0.26"
-rand.workspace = true
-sha2.workspace = true
-thiserror.workspace = true
+rand = "0.8"
+sha2 = "0.10"
+thiserror = "2"
 
 [dev-dependencies]
-tokio = { workspace = true, features = ["macros", "rt"] }
+tokio = { version = "1", features = ["macros", "rt"] }

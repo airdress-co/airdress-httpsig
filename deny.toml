@@ -1,0 +1,28 @@
+# Licences, advisories, and the ban list.
+#
+# The telemetry bans are the point and are not generic hygiene: this
+# crate signs requests for an operator somebody else runs, on hardware
+# somebody else owns. A dependency that phones home would do it from
+# there. So the ban is on the ability, not on a configuration flag.
+[licenses]
+allow = ["Apache-2.0", "MIT", "BSD-2-Clause", "BSD-3-Clause", "ISC", "Unicode-3.0"]
+unused-allowed-license = "allow"
+
+[advisories]
+yanked = "deny"
+
+[bans]
+multiple-versions = "warn"
+# One copy of the signing library, or two versions canonicalise the same
+# request differently and the bytes being signed stop agreeing.
+deny = [
+  { name = "sentry" },
+  { name = "sentry-core" },
+  { name = "opentelemetry" },
+  { name = "posthog-rs" },
+  { name = "analytics-next" },
+]
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
