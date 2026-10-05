@@ -35,3 +35,12 @@ thiserror = "2"
 
 [dev-dependencies]
 tokio = { version = "1", features = ["macros", "rt"] }
+
+# Smaller test and dev artifacts: line tables keep panics and backtraces
+# readable; dependencies carry no debug info. A debugger session sets
+# CARGO_PROFILE_DEV_DEBUG=true for that build (workspace crates only).
+[profile.dev]
+debug = "line-tables-only"
+
+[profile.dev.package."*"]
+debug = false
