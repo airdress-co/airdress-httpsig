@@ -50,3 +50,14 @@ jobs:
           tar xzf "$tarball" --strip-components=1 \
             "cargo-deny-${DENY_VERSION}-x86_64-unknown-linux-musl/cargo-deny"
           ./cargo-deny --all-features check licenses advisories bans sources
+
+  # Document numbers stay out of code (airdress-ops CLAUDE.md). The same
+  # script is a prek hook; this job is what holds it on a pull request.
+  doc-numbers:
+    name: Document numbers stay out of code
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: bash scripts/check-doc-numbers.sh
